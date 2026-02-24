@@ -1,0 +1,42 @@
+type Job @entity {
+  id: ID!
+  agentId: String!
+  jobType: String!
+  requester: Bytes!
+  timestamp: BigInt!
+  status: String!
+  outputHash: Bytes
+  completedAt: BigInt
+  payment: Payment
+}
+
+type Agent @entity {
+  id: ID!
+  address: Bytes!
+  tier: String!
+  trustScore: BigInt!
+  totalJobs: BigInt!
+  totalEarned: BigInt!
+  jobs: [Job!]! @derivedFrom(field: "agentId")
+  paymentsReceived: [Payment!]! @derivedFrom(field: "to")
+}
+
+type Payment @entity {
+  id: ID!
+  from: Bytes!
+  to: Bytes!
+  amount: BigInt!
+  currency: String!
+  jobId: Bytes!
+  timestamp: BigInt!
+}
+
+type KnowledgePack @entity {
+  id: ID!
+  seller: Bytes!
+  buyer: Bytes!
+  packId: Bytes!
+  price: BigInt!
+  timestamp: BigInt!
+}
+
